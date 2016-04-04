@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     // Set initial position to UNHQ in NYC
                     mapboxMap.moveCamera(CameraUpdateFactory.newCameraPosition(
                             new CameraPosition.Builder()
-                                    .target(new LatLng(35.681382, 139.76608399999998))
+                                    .target(new LatLng(33.583549, 130.393819))
                                     .zoom(14)
                                     .bearing(0)
                                     .tilt(0)
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        
+
         downloadBtn = (Button) findViewById(R.id.download);
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         // Definition
         String styleURL = mapBoxMap.getStyleUrl();
         LatLngBounds bounds = mapBoxMap.getProjection().getVisibleRegion().latLngBounds;
+        bounds.intersect(33.596496, 130.389045, 33.563012, 130.430439);
         double minZoom = mapBoxMap.getCameraPosition().zoom;
         double maxZoom = mapBoxMap.getMaxZoom();
         float pixelRatio = this.getResources().getDisplayMetrics().density;
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         byte[] metadata;
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put(JSON_FIELD_REGION_NAME, "Tokyo");
+            jsonObject.put(JSON_FIELD_REGION_NAME, "Fukuoka");
             String json = jsonObject.toString();
             metadata = json.getBytes(JSON_CHARSET);
         } catch (Exception e) {
