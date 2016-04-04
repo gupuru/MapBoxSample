@@ -1,15 +1,20 @@
 package gupuru.mapboxsample;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.constants.Style;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.offline.OfflineManager;
 import com.mapbox.mapboxsdk.offline.OfflineRegion;
 import com.mapbox.mapboxsdk.offline.OfflineRegionError;
@@ -17,6 +22,8 @@ import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
 
 import org.json.JSONObject;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +47,22 @@ public class MainActivity extends AppCompatActivity {
             mapView.setStyle(Style.MAPBOX_STREETS);
             mapView.onCreate(savedInstanceState);
         }
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull MapboxMap mapboxMap) {
+                mapBoxMap = mapboxMap;
+
+                // Set initial position to UNHQ in NYC
+                mapboxMap.moveCamera(CameraUpdateFactory.newCameraPosition(
+                        new CameraPosition.Builder()
+                                .target(new LatLng(35.681382, 139.76608399999998))
+                                .zoom(14)
+                                .bearing(0)
+                                .tilt(0)
+                                .build()));
+            }
+        });
+
 
         downloadBtn = (Button) findViewById(R.id.download);
         downloadBtn.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +80,17 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         mapView.onResume();
+
+
+        String filePath = getFilesDir().getPath();
+        Log.d("ここ", filePath);
+        File[] files = new File(filePath).listFiles();
+        Log.d("ここ", filePath);
+        for (File file : files) {
+            Log.d("ここ", file.getName());
+            Log.d("ここ", file.getPath());
+        }
+
     }
 
     @Override
@@ -97,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         byte[] metadata;
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put(JSON_FIELD_REGION_NAME, "tokyo");
+            jsonObject.put(JSON_FIELD_REGION_NAME, "Tokyo");
             String json = jsonObject.toString();
             metadata = json.getBytes(JSON_CHARSET);
         } catch (Exception e) {
@@ -133,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
                 if (status.isComplete()) {
                     // Download complete
                     Log.d("ここ", "ダウンロード完了");
-                    mapView.set
                     return;
                 } else if (status.isRequiredResourceCountPrecise()) {
                     // Switch to determinate state
