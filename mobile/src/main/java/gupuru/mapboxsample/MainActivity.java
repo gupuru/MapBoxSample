@@ -44,26 +44,26 @@ public class MainActivity extends AppCompatActivity {
 
         mapView = (MapView) findViewById(R.id.mapview);
         if (mapView != null) {
+            mapView.setAccessToken(ApiAccess.getToken(this));
             mapView.setStyle(Style.MAPBOX_STREETS);
             mapView.onCreate(savedInstanceState);
+            mapView.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(@NonNull MapboxMap mapboxMap) {
+                    mapBoxMap = mapboxMap;
+
+                    // Set initial position to UNHQ in NYC
+                    mapboxMap.moveCamera(CameraUpdateFactory.newCameraPosition(
+                            new CameraPosition.Builder()
+                                    .target(new LatLng(35.681382, 139.76608399999998))
+                                    .zoom(14)
+                                    .bearing(0)
+                                    .tilt(0)
+                                    .build()));
+                }
+            });
         }
-        mapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(@NonNull MapboxMap mapboxMap) {
-                mapBoxMap = mapboxMap;
-
-                // Set initial position to UNHQ in NYC
-                mapboxMap.moveCamera(CameraUpdateFactory.newCameraPosition(
-                        new CameraPosition.Builder()
-                                .target(new LatLng(35.681382, 139.76608399999998))
-                                .zoom(14)
-                                .bearing(0)
-                                .tilt(0)
-                                .build()));
-            }
-        });
-
-
+        
         downloadBtn = (Button) findViewById(R.id.download);
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mOfflineManager = OfflineManager.getInstance(this);
-        mOfflineManager.setAccessToken("pk.eyJ1Ijoic2VmdXJpa29oZWkiLCJhIjoiY2loenV6bjVxMDRrcXVra290ZW83ZjA0NSJ9.xhF8kOKgGhuE0TCSg90VwA");
+        mOfflineManager.setAccessToken(ApiAccess.getToken(this));
     }
 
     @Override

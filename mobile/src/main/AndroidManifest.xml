@@ -23,6 +23,10 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="com.mapbox.AccessToken"
+            android:value="pk.eyJ1Ijoic2VmdXJpa29oZWkiLCJhIjoiY2loenV6bjVxMDRrcXVra290ZW83ZjA0NSJ9.xhF8kOKgGhuE0TCSg90VwA" />
+
         <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" />
 
     </application>
