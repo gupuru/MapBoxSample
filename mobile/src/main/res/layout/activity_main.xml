@@ -6,15 +6,30 @@
     android:orientation="vertical"
     tools:context="gupuru.mapboxsample.MainActivity">
 
-    <Button
-        android:id="@+id/download"
+    <LinearLayout
+        android:id="@+id/button_section"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="だうんろーど"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地図DL" />
+
+        <TextView
+            android:id="@+id/download_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
     <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/mapview"
+        android:id="@+id/map_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
