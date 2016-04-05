@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             mapView.onCreate(savedInstanceState);
             mapView.getMapAsync(new OnMapReadyCallback() {
                 @Override
-                public void onMapReady(@NonNull MapboxMap mapboxMap) {
+                public void onMapReady(@NonNull final MapboxMap mapboxMap) {
                     mapBoxMap = mapboxMap;
                     mapboxMap.moveCamera(CameraUpdateFactory.newCameraPosition(
                             new CameraPosition.Builder()
@@ -58,10 +60,35 @@ public class MainActivity extends AppCompatActivity {
                                     .bearing(0)
                                     .tilt(0)
                                     .build()));
-                    mapboxMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(33.583549, 130.393819))
-                            .title("Hello World!")
-                            .snippet("Welcome to my marker."));
+
+
+                    MarkerOptions markerOptions = new MarkerOptions()
+                            .title("ふえええ")
+                            .snippet("もう疲れたよ〜")
+                            .position(new LatLng(33.583549, 130.393819));
+
+                    Marker marker = new Marker(markerOptions);
+                    marker.setId(100);
+
+                    mapboxMap.addMarker(markerOptions);
+
+                    mapBoxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
+                        @Override
+                        public boolean onInfoWindowClick(@NonNull Marker marker) {
+                            Toast.makeText(getApplicationContext(), "Window OnClick: " + marker.getTitle(), Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+                    });
+
+                    mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(@NonNull Marker marker) {
+                            Toast.makeText(getApplicationContext(), "Marker OnClick: " + marker.getTitle(), Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+                    });
+
+
                 }
             });
         }
@@ -116,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupDownloadMap() {
         String styleURL = mapBoxMap.getStyleUrl();
         LatLngBounds bounds = mapBoxMap.getProjection().getVisibleRegion().latLngBounds;
-    //    bounds.intersect(33.596496, 130.389045, 33.563012, 130.430439);
+        //    bounds.intersect(33.596496, 130.389045, 33.563012, 130.430439);
         double minZoom = mapBoxMap.getCameraPosition().zoom;
         double maxZoom = mapBoxMap.getMaxZoom();
         float pixelRatio = this.getResources().getDisplayMetrics().density;
