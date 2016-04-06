@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.annotations.PolylineOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.constants.Style;
@@ -26,6 +27,9 @@ import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
                             return false;
                         }
                     });
+
+
+                    List<LatLng> line = new ArrayList<>();
+                    line.add(new LatLng(33.586319, 130.421886));
+                    line.add(new LatLng(33.590018, 130.374715));
+
+//                    mapboxMap.addPolyline(new PolylineOptions().addAll(line).width(1).color(Color.BLUE));
+                    mapboxMap.addPolyline(new PolylineOptions().addAll(line));
 
 
                 }
