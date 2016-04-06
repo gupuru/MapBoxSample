@@ -229,31 +229,5 @@ public class MainActivity extends AppCompatActivity {
 
         mOfflineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE);
     }
-
-    private void checkData() {
-
-        mOfflineManager.listOfflineRegions(new OfflineManager.ListOfflineRegionsCallback() {
-            @Override
-            public void onList(OfflineRegion[] offlineRegions) {
-                // Check result
-                if (offlineRegions == null || offlineRegions.length == 0) {
-                    return;
-                }
-
-                // Get regions info
-                for (OfflineRegion offlineRegion : offlineRegions) {
-                    offlineRegion.getMetadata();
-                }
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.e("ここ", "Error: " + error);
-            }
-
-        });
-
-
-    }
-
+    
 }
